@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /index.php
+
+Sitemap: https://ciberangra.pt/sitemap.xml
