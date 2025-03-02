@@ -1,4 +1,4 @@
 User-Agent: *
 Allow: /index.php
 
-Sitemap: https://ciberangra.pt/sitemap.xml
+Sitemap: https://minimilitiamodapk.net/sitemap.xml
