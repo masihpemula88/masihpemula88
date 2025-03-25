@@ -1,4 +1,4 @@
 User-Agent: *
 Allow: /index.php
 
-Sitemap: https://minimilitiamodapk.net/sitemap.xml
+Sitemap: https://noticiaurbana.com.br/sitemap.xml
